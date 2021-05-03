@@ -1,19 +1,19 @@
 import tornado.web
 import tornado.ioloop
 
-class basicRequestHandler(tornado.web.RequestHandler): 
+class basicRequestHandler(tornado.web.RequestHandler): # create request handler
     def get(self): # define get method
         self.write("this is a python command executed from the back end")
 
 class helloRequestHandler(tornado.web.RequestHandler):
     def get(self):
-        self.render("index.html")
+        self.render("index.html") # render html content
 
 class queryParamRequestHandler(tornado.web.RequestHandler): # uses a query parameter
     def get(self):
         num = self.get_argument("num") # retrieve the query parameter from the request URL
 
-        if (num.isdigit()):
+        if (num.isdigit()): # checking parameter and conditionally executing based on the results
             r = "odd" if int(num) % 2 else "even"
             self.write(f"the number {num} is {r}")
         else:
