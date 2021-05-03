@@ -5,9 +5,14 @@ class basicRequestHandler(tornado.web.RequestHandler):
     def get(self): # define get method
         self.write("this is a python command executed from the back end")
 
+class helloRequestHandler(tornado.web.RequestHandler):
+    def get(self):
+        self.render("index.html")
+
 if __name__ == "__main__": 
     app = tornado.web.Application([ # create initial tornado app, pass in endpoints for the requests we will create handlers for
-        (r"/", basicRequestHandler)
+        (r"/", basicRequestHandler),
+        (r"/hello", helloRequestHandler)
     ]) 
 
     port = 8882
