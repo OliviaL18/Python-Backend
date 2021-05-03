@@ -1,5 +1,6 @@
 import tornado.web
 import tornado.ioloop
+import json
 
 class basicRequestHandler(tornado.web.RequestHandler): # create request handler
     def get(self): # define get method
@@ -22,14 +23,21 @@ class queryParamRequestHandler(tornado.web.RequestHandler): # uses a query param
 class resourceParamRequestHandler(tornado.web.RequestHandler): # uses a resource parameter
     def get(self, studentName, courseID): # resource parameters become inputs for the get method
         self.write(f"welcome {studentName} to class #{courseID}")
-        
+
+class listRequestHandler(tornado.web.RequestHandler): # API
+    def get(self):
+        fileHandler = open("list.txt")
+        fruits = fileHandler.read().splitlines()
+        fileHandler.close()
+        self.write(json.dumps(fruits))
 
 if __name__ == "__main__": 
     app = tornado.web.Application([ # create initial tornado app, pass in endpoints for the requests we will create handlers for
         (r"/", basicRequestHandler),
         (r"/hello", helloRequestHandler), 
         (r"/isEven", queryParamRequestHandler), # uses a query parameter
-        (r"/students/([a-z]+)/([1-9]+)", resourceParamRequestHandler) # uses a resource parameter + regex
+        (r"/students/([a-z]+)/([1-9]+)", resourceParamRequestHandler), # uses a resource parameter + regex, 
+        (r"/list", listRequestHandler)
     ]) 
 
     port = 8882
