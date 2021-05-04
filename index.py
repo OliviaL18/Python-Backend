@@ -26,10 +26,16 @@ class resourceParamRequestHandler(tornado.web.RequestHandler): # uses a resource
 
 class listRequestHandler(tornado.web.RequestHandler): # API
     def get(self):
-        fileHandler = open("list.txt")
+        fileHandler = open("list.txt", "r") # r for read?
         fruits = fileHandler.read().splitlines()
         fileHandler.close()
         self.write(json.dumps(fruits))
+    def post(self): # defining the post request
+        fruit = self.get_argument("fruit") # use the query string parameters to receive the new content
+        fileHandler = open("list.txt", "a") # a for append
+        fileHandler.write(f"{fruit}\n")
+        fileHandler.close()
+        self.write(json.dumps({ "message": "Fruit added successfully" }))
 
 if __name__ == "__main__": 
     app = tornado.web.Application([ # create initial tornado app, pass in endpoints for the requests we will create handlers for
