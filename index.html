@@ -7,12 +7,37 @@
     <title>Python Backend</title>
 </head>
 <body>
-    <h1>Here is a HTML page.</h1>
-    <h2>yayyyyyyyy</h2>
-    <select>
-        <option>This is great</option>
-        <option>i love it</option>
-        <option>so amazing</option>
-    </select>
+    <h1>Reading all the fruits from the API</h1>
+    <p>List of fruits</p>
+    <select id='fruitList'></select>
+    <p>Add a new fruit</p>
+    <input type='text' id='fruitText' />
+    <button id='addFruitBtn'>Add Fruit</button>
+
+    <script>
+        const list = document.getElementById("fruitList");
+        const btn = document.getElementById("addFruitBtn");
+        const newFruit = document.getElementById("fruitText");
+
+        fetch("http://localhost:8882/list")
+        .then(res => res.json())
+        .then(jsonResponse => {
+            jsonResponse.forEach(fruit => {
+                let newOption = document.createElement("option");
+                newOption.textContent = fruit;
+                list.appendChild(newOption)
+            })
+        })
+
+        btn.addEventListener("click", e => {
+            let fruit = newFruit.value
+            fetch(`http://localhost:8882/list?fruit=${fruit}`, {"method": "POST"})
+            .then(res => res.json())
+            .then(jsonResponse => {
+                alert(jsonResponse.message)
+            })
+        })
+    </script>
+
 </body>
 </html>

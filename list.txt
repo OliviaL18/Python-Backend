@@ -4,3 +4,4 @@ Orange
 Lemon
 Avocado
 Melon
+Pear

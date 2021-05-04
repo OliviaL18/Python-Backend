@@ -2,11 +2,7 @@ import tornado.web
 import tornado.ioloop
 import json
 
-class basicRequestHandler(tornado.web.RequestHandler): # create request handler
-    def get(self): # define get method
-        self.write("this is a python command executed from the back end")
-
-class helloRequestHandler(tornado.web.RequestHandler):
+class mainRequestHandler(tornado.web.RequestHandler):
     def get(self):
         self.render("index.html") # render html content
 
@@ -39,8 +35,7 @@ class listRequestHandler(tornado.web.RequestHandler): # API
 
 if __name__ == "__main__": 
     app = tornado.web.Application([ # create initial tornado app, pass in endpoints for the requests we will create handlers for
-        (r"/", basicRequestHandler),
-        (r"/hello", helloRequestHandler), 
+        (r"/", mainRequestHandler),
         (r"/isEven", queryParamRequestHandler), # uses a query parameter
         (r"/students/([a-z]+)/([1-9]+)", resourceParamRequestHandler), # uses a resource parameter + regex, 
         (r"/list", listRequestHandler)
